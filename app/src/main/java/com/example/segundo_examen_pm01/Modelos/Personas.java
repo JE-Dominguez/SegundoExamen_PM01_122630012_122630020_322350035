@@ -2,6 +2,7 @@ package com.example.segundo_examen_pm01.Modelos;
 
 public class Personas {
 
+    private  int id;
     private String nombres;
     private String apellidos;
     private String direccion;
@@ -59,5 +60,13 @@ public class Personas {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

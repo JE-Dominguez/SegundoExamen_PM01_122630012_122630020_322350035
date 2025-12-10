@@ -6,4 +6,12 @@
     <string name="apellidos">Apellidos</string>
     <string name="nombres">Nombres</string>
     <string name="tomar_foto">Tomar Foto</string>
+    <string name="lista_de_personas">Lista de Personas</string>
+    <string name="ver_lista">Ver lista</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="ver_listaa">Ver lista</string>
+    <string name="lista_de_personass">Lista de Personas</string>
+    <string name="crear_persona">Crear Persona</string>
+    <string name="creando_persona">Creando Persona</string>
 </resources>

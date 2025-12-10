@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,18 +16,14 @@ import androidx.core.content.ContextCompat;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.segundo_examen_pm01.Configuraciones.Camara;
 import com.example.segundo_examen_pm01.Configuraciones.RestApiMethods;
 import com.example.segundo_examen_pm01.Modelos.Personas;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.example.segundo_examen_pm01.Configuraciones.Camara;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CreateActivity extends AppCompatActivity {
 
@@ -42,6 +37,14 @@ public class CreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+
+        FloatingActionButton fab = findViewById(R.id.fabCancelar);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(CreateActivity.this, ListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
 
         inicializarVistas();
         inicializarCamara();
@@ -59,15 +62,12 @@ public class CreateActivity extends AppCompatActivity {
         txtTelefono = findViewById(R.id.txtTelefono);
     }
 
-    // Inicializa la clase Camara
     private void inicializarCamara() {
         camara = new Camara(this, imgFoto);
     }
 
     private void asignarEventos() {
-
         btnTomarFoto.setOnClickListener(v -> validarPermisoCamara());
-
         btnGuardar.setOnClickListener(v -> guardarPersona());
     }
     private void validarPermisoCamara() {
@@ -83,6 +83,28 @@ public class CreateActivity extends AppCompatActivity {
 
 
     private void guardarPersona() {
+        // Validar campos obligatorios
+        if (txtNombres.getText().toString().trim().isEmpty()) {
+            txtNombres.setError("Este campo es obligatorio");
+            txtNombres.requestFocus();
+            return;
+        }
+        if (txtApellidos.getText().toString().trim().isEmpty()) {
+            txtApellidos.setError("Este campo es obligatorio");
+            txtApellidos.requestFocus();
+            return;
+        }
+        if (txtDireccion.getText().toString().trim().isEmpty()) {
+            txtDireccion.setError("Este campo es obligatorio");
+            txtDireccion.requestFocus();
+            return;
+        }
+        if (txtTelefono.getText().toString().trim().isEmpty()) {
+            txtTelefono.setError("Este campo es obligatorio");
+            txtTelefono.requestFocus();
+            return;
+        }
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         Personas persona = new Personas();
 
@@ -90,10 +112,16 @@ public class CreateActivity extends AppCompatActivity {
         persona.setApellidos(txtApellidos.getText().toString());
         persona.setDireccion(txtDireccion.getText().toString());
         persona.setTelefono(txtTelefono.getText().toString());
-        persona.setFoto(camara.obtenerImagenBase64());
+
+        // Foto opcional
+        String fotoBase64 = camara.obtenerImagenBase64();
+        if (fotoBase64 != null && !fotoBase64.isEmpty()) {
+            persona.setFoto(fotoBase64);
+        } else {
+            persona.setFoto(""); // O null según tu API
+        }
 
         JSONObject jsonObject = new JSONObject();
-
         try {
             jsonObject.put("nombres", persona.getNombres());
             jsonObject.put("apellidos", persona.getApellidos());
@@ -106,12 +134,20 @@ public class CreateActivity extends AppCompatActivity {
                 try {
                     String mensaje = response.getString("message");
                     Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
+
+                    boolean exito = response.optBoolean("issuccess", false);
+                    if (exito) {
+                        Intent intent = new Intent(CreateActivity.this, ListActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }, error -> {
-                Toast.makeText(getApplicationContext(), error.getMessage().toString(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             });
 
             requestQueue.add(request);
@@ -120,6 +156,8 @@ public class CreateActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

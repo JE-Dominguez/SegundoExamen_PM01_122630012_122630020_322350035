@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="30dp"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lista_de_personass"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="12dp"/>
+
+    <ListView
+        android:id="@+id/listViewPersonas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvTitulo"
+        android:dividerHeight="12dp"
+        android:divider="@android:color/transparent"/>
+
+    <TextView
+        android:id="@+id/tvNoPersonas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No existen Personas Registradas"
+        android:textAlignment="center"
+        android:paddingTop="70dp"
+        android:textSize="16sp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAgregar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/ver_listaa"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@android:color/holo_blue_dark"/>
+</RelativeLayout>

@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_fondo"
+    android:elevation="2dp"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/imgFotoItem"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/img_redonda"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_user" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNombresItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Apellido"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtDireccionItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Dirección"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtTelefonoItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Teléfono"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dp">
+
+        <ImageButton
+            android:id="@+id/btnEditar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_edit"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Editar"
+            app:tint="@color/green_700" />
+
+        <ImageButton
+            android:id="@+id/btnEliminar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_delete"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Eliminar"
+            app:tint="@color/red_700" />
+    </LinearLayout>
+
+</LinearLayout>
