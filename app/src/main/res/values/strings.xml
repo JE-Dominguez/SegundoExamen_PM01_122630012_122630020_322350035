@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Segundo_Examen_PM01</string>
+    <string name="guardar">Guardar</string>
+    <string name="tel_fono">Teléfono</string>
+    <string name="direcci_n">Dirección</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="nombres">Nombres</string>
+    <string name="tomar_foto">Tomar Foto</string>
+</resources>
