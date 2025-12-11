@@ -1,6 +1,7 @@
 package com.example.segundo_examen_pm01.Configuraciones;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +9,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.segundo_examen_pm01.Modelos.Personas;
 import com.example.segundo_examen_pm01.R;
+import com.example.segundo_examen_pm01.UpdateActivity;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -73,9 +82,19 @@ public class PersonaAdapter extends BaseAdapter {
     }
 
     private void editarPersona(Personas persona) {
+        Intent intent = new Intent(context, UpdateActivity.class);
+        intent.putExtra("id", persona.getId());
+        intent.putExtra("nombres", persona.getNombres());
+        intent.putExtra("apellidos", persona.getApellidos());
+        intent.putExtra("direccion", persona.getDireccion());
+        intent.putExtra("telefono", persona.getTelefono());
+        intent.putExtra("foto", persona.getFoto());
+        context.startActivity(intent);
+
     }
 
     private void eliminarPersona(Personas persona) {
+
     }
 
 }
