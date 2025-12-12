@@ -32,7 +32,7 @@
         android:id="@+id/tvAutores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jesus Dominguez - 122630020\nOrbin Hernandez - 122630020\nFernanda Sarmiento - 322350035"
+        android:text="Jesus Dominguez - 122630020\nOrbin Hernandez - 122630012\nFernanda Sarmiento - 322350035"
         android:textSize="20sp"
         android:gravity="center"
         android:lineSpacingExtra="4dp" />
