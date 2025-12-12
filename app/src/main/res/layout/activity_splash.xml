@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Logo de la app -->
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="500sp"
+        android:layout_height="500sp"
+        android:src="@mipmap/ic_ucenm"
+        android:contentDescription="Logo"
+        android:layout_marginTop="-200dp"/>
+
+    <!-- Nombre de la app -->
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Examen Segundo Parcial"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="-120dp"/>
+
+    <!-- Autores -->
+    <TextView
+        android:id="@+id/tvAutores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jesus Dominguez - 122630020\nOrbin Hernandez - 122630020\nFernanda Sarmiento - 322350035"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>

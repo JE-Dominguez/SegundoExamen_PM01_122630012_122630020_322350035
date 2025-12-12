@@ -2,11 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:background="@drawable/item_fondo"
     android:elevation="2dp"
-    android:orientation="horizontal"
     android:padding="12dp">
 
+    <!-- Foto de la persona -->
     <ImageView
         android:id="@+id/imgFotoItem"
         android:layout_width="60dp"
@@ -17,6 +18,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_user" />
 
+    <!-- Información: nombre, dirección, teléfono -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,6 +53,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <!-- Botones: editar y eliminar -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

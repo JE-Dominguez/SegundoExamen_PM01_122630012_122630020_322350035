@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Permisos -->
+    <!-- ========================= -->
+    <!-- Permisos necesarios -->
+    <!-- ========================= -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Característica de cámara -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Para acceso opcional a almacenamiento -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" /> <!-- ========================= -->
+    <!-- Características de dispositivo -->
+    <!-- ========================= -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -19,13 +27,19 @@
         android:theme="@style/Theme.Segundo_Examen_PM01"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".UpdateActivity"
+            android:name=".ListActivity"
             android:exported="false" />
+        <activity
+            android:name=".PhotoActivity"
+            android:exported="false" /> <!-- Pantalla de actualización -->
+        <activity
+            android:name=".UpdateActivity"
+            android:exported="false" /> <!-- Pantalla de creación -->
         <activity
             android:name=".CreateActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- Pantalla principal: lista de personas -->
         <activity
-            android:name=".ListActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

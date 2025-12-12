@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Scroll para el contenido -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,16 +16,18 @@
             android:paddingTop="30dp"
             android:gravity="center_horizontal">
 
+            <!-- Título -->
             <TextView
                 android:id="@+id/tvTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/creando_persona"
+                android:text="Editando Persona"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
                 android:paddingBottom="12dp"/>
 
+            <!-- Imagen de la persona -->
             <ImageView
                 android:id="@+id/imgFoto"
                 android:layout_width="180dp"
@@ -33,52 +36,54 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_user" />
 
+            <!-- Botón tomar foto -->
             <Button
                 android:id="@+id/btnTomarFoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tomar Foto" />
+                android:text="Tomar Foto"
+                android:layout_marginTop="12dp"/>
 
+            <!-- Formulario -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="16dp"
-                android:paddingTop="20dp"
                 android:paddingRight="16dp"
+                android:paddingTop="20dp"
                 android:paddingBottom="16dp">
 
-
-
+                <!-- Nombres -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombres"
                     android:layout_marginBottom="12dp">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtNombres"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="48dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- ID oculto -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Apellidos -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Apellidos"
                     android:layout_marginBottom="12dp">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtApellidos"
                         android:layout_width="match_parent"
@@ -86,12 +91,12 @@
                         android:minHeight="48dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Dirección -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Dirección"
                     android:layout_marginBottom="12dp">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtDireccion"
                         android:layout_width="match_parent"
@@ -99,12 +104,12 @@
                         android:minHeight="48dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Teléfono -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Teléfono"
                     android:layout_marginBottom="20dp">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtTelefono"
                         android:layout_width="match_parent"
@@ -113,6 +118,7 @@
                         android:minHeight="48dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Botón guardar -->
                 <Button
                     android:id="@+id/btnGuardar"
                     android:layout_width="match_parent"
@@ -120,10 +126,10 @@
                     android:text="Guardar" />
 
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
+    <!-- Botón flotante cancelar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCancelar"
         android:layout_width="wrap_content"
@@ -134,5 +140,4 @@
         android:contentDescription="Ver lista"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         app:backgroundTint="@android:color/holo_blue_dark"/>
-
 </RelativeLayout>

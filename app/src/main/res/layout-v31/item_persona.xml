@@ -2,11 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:background="@drawable/item_fondo"
     android:elevation="2dp"
-    android:orientation="horizontal"
     android:padding="12dp">
 
+    <!-- Foto de la persona -->
     <ImageView
         android:id="@+id/imgFotoItem"
         android:layout_width="60dp"
@@ -17,12 +18,14 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_user" />
 
+    <!-- Información de la persona -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <!-- Nombre completo -->
         <TextView
             android:id="@+id/txtNombresItem"
             android:layout_width="wrap_content"
@@ -32,6 +35,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <!-- Dirección -->
         <TextView
             android:id="@+id/txtDireccionItem"
             android:layout_width="wrap_content"
@@ -41,6 +45,7 @@
             android:textColor="#555555"
             android:textSize="14sp" />
 
+        <!-- Teléfono -->
         <TextView
             android:id="@+id/txtTelefonoItem"
             android:layout_width="wrap_content"
@@ -51,6 +56,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <!-- Botones acción: editar / eliminar -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +64,7 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="5dp">
 
+        <!-- Botón editar -->
         <ImageButton
             android:id="@+id/btnEditar"
             android:layout_width="50dp"
@@ -67,6 +74,7 @@
             android:contentDescription="Editar"
             app:tint="@color/green_700" />
 
+        <!-- Botón eliminar -->
         <ImageButton
             android:id="@+id/btnEliminar"
             android:layout_width="50dp"

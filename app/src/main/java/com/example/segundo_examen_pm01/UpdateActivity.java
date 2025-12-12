@@ -41,20 +41,14 @@ public class UpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
 
-        FloatingActionButton fab = findViewById(R.id.fabCancelar);
-        fab.setOnClickListener(v -> {
-            Intent intent = new Intent(UpdateActivity.this, ListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
-
         inicializarVistas();
         inicializarCamara();
         cargarDatos();
         asignarEventos();
+        configurarFabCancelar();
     }
 
+    // Inicializa vistas
     private void inicializarVistas() {
         imgFoto = findViewById(R.id.imgFoto);
         btnTomarFoto = findViewById(R.id.btnTomarFoto);
@@ -66,15 +60,26 @@ public class UpdateActivity extends AppCompatActivity {
         txtTelefono = findViewById(R.id.txtTelefono);
     }
 
+    // Inicializa cámara
     private void inicializarCamara() {
         camara = new Camara(this, imgFoto);
     }
 
+    // Configura FAB para cancelar y volver al listado
+    private void configurarFabCancelar() {
+        FloatingActionButton fab = findViewById(R.id.fabCancelar);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(UpdateActivity.this, ListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    // Carga los datos recibidos en la UI
     private void cargarDatos() {
         Intent i = getIntent();
         idPersona = i.getIntExtra("id", 0);
-
-        Toast.makeText(this, "ID recibido: " + idPersona, Toast.LENGTH_SHORT).show();
 
         txtNombres.setText(i.getStringExtra("nombres"));
         txtApellidos.setText(i.getStringExtra("apellidos"));
@@ -82,68 +87,92 @@ public class UpdateActivity extends AppCompatActivity {
         txtTelefono.setText(i.getStringExtra("telefono"));
 
         fotoActual = i.getStringExtra("foto");
+        mostrarFoto(fotoActual);
+    }
 
-        if (fotoActual != null && !fotoActual.isEmpty()) {
-            byte[] decoded = Base64.decode(fotoActual, Base64.DEFAULT);
-            imgFoto.setImageBitmap(android.graphics.BitmapFactory.decodeByteArray(decoded, 0, decoded.length));
+    // Muestra la foto si existe
+    private void mostrarFoto(String fotoBase64) {
+        if (fotoBase64 != null && !fotoBase64.isEmpty()) {
+            try {
+                byte[] decoded = Base64.decode(fotoBase64, Base64.DEFAULT);
+                imgFoto.setImageBitmap(android.graphics.BitmapFactory.decodeByteArray(decoded, 0, decoded.length));
+            } catch (Exception e) {
+                imgFoto.setImageResource(R.drawable.ic_user);
+                e.printStackTrace();
+            }
+        } else {
+            imgFoto.setImageResource(R.drawable.ic_user);
         }
     }
 
-
+    // Asigna eventos a botones
     private void asignarEventos() {
         btnTomarFoto.setOnClickListener(v -> validarPermisoCamara());
         btnGuardar.setOnClickListener(v -> actualizarPersona());
     }
 
+    // Valida permiso de cámara antes de abrir
     private void validarPermisoCamara() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA}, 200);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 200);
         } else {
             camara.abrirCamara();
         }
     }
 
-    private void actualizarPersona() {
-        // Validar campos obligatorios
+    // Valida campos obligatorios
+    private boolean validarCampos() {
         if (txtNombres.getText().toString().trim().isEmpty()) {
             txtNombres.setError("Este campo es obligatorio");
             txtNombres.requestFocus();
-            return;
+            return false;
         }
         if (txtApellidos.getText().toString().trim().isEmpty()) {
             txtApellidos.setError("Este campo es obligatorio");
             txtApellidos.requestFocus();
-            return;
+            return false;
         }
         if (txtDireccion.getText().toString().trim().isEmpty()) {
             txtDireccion.setError("Este campo es obligatorio");
             txtDireccion.requestFocus();
-            return;
+            return false;
         }
         if (txtTelefono.getText().toString().trim().isEmpty()) {
             txtTelefono.setError("Este campo es obligatorio");
             txtTelefono.requestFocus();
-            return;
+            return false;
         }
+        return true;
+    }
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+    // Actualiza la persona en la API
+    private void actualizarPersona() {
+        if (!validarCampos()) return;
+
+        Personas persona = crearPersonaDesdeFormulario();
+        enviarSolicitudActualizar(persona);
+    }
+
+    // Crea objeto Personas desde formulario
+    private Personas crearPersonaDesdeFormulario() {
         Personas persona = new Personas();
-
-        persona.setNombres(txtNombres.getText().toString());
-        persona.setApellidos(txtApellidos.getText().toString());
-        persona.setDireccion(txtDireccion.getText().toString());
-        persona.setTelefono(txtTelefono.getText().toString());
+        persona.setNombres(txtNombres.getText().toString().trim());
+        persona.setApellidos(txtApellidos.getText().toString().trim());
+        persona.setDireccion(txtDireccion.getText().toString().trim());
+        persona.setTelefono(txtTelefono.getText().toString().trim());
 
         // Mantener foto actual si no hay nueva
         String nuevaFoto = camara.obtenerImagenBase64();
         persona.setFoto((nuevaFoto == null || nuevaFoto.isEmpty()) ? fotoActual : nuevaFoto);
 
-        JSONObject jsonObject = new JSONObject();
+        return persona;
+    }
 
+    // Envía solicitud PUT para actualizar persona
+    private void enviarSolicitudActualizar(Personas persona) {
         try {
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", idPersona);
             jsonObject.put("nombres", persona.getNombres());
             jsonObject.put("apellidos", persona.getApellidos());
@@ -153,48 +182,42 @@ public class UpdateActivity extends AppCompatActivity {
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, RestApiMethods.ENDPOINT_UPDATE,
                     jsonObject, response -> {
-                try {
-                    String mensaje = response.getString("message");
-                    Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_LONG).show();
+                String mensaje = response.optString("message", "Sin mensaje");
+                Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
 
-                    boolean exito = response.optBoolean("issuccess", false);
-                    if (exito) {
-                        Intent intent = new Intent(UpdateActivity.this, ListActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                boolean exito = response.optBoolean("issuccess", false);
+                if (exito) {
+                    Intent intent = new Intent(UpdateActivity.this, ListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 }
+
             }, error -> {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error: " + (error.getMessage() != null ? error.getMessage() : ""), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
             });
 
             requestQueue.add(request);
-
         } catch (Exception ex) {
             ex.printStackTrace();
+            Toast.makeText(this, "Error preparando solicitud", Toast.LENGTH_LONG).show();
         }
     }
 
-
-
+    // Resultado de cámara
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         camara.procesarResultado(requestCode, resultCode, data);
     }
 
+    // Resultado de permisos
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 200) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                camara.abrirCamara();
-            }
+        if (requestCode == 200 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            camara.abrirCamara();
         }
     }
 }
